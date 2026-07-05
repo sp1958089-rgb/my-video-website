@@ -1,19 +1,329 @@
-Now let me check how it renders before sharing.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucky — Creative Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal: #17191b;
+    --charcoal-deep: #0d0e0f;
+    --chalk: #f2efe9;
+    --amber: #ffb020;
+    --teal: #3e7c74;
+    --warm-gray: #8a8680;
+  }
 
-Here's your new portfolio page — designed like a **film slate/editing reel** since that fits your video-editing + creative work vibe:
+  * { box-sizing: border-box; }
 
-- **Hero**: your video plays behind a slate card showing your name, role, and skills — like a clapperboard for a shoot
-- **Skills section**: your three skills laid out like numbered reels
-- **Contact**: your Instagram link styled as a "credit line"
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--charcoal-deep);
+    color: var(--chalk);
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+  }
 
-**To put it live**, replace your current `index.html` on GitHub with this one:
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+  }
 
-1. Go to your repo → tap **index.html**
-2. Tap ✏️ **Edit**
-3. Select all, delete
-4. Open the file I made, copy everything, paste it in
-5. Tap **Commit changes**
+  h1, h2, .display {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.04em;
+    font-weight: 400;
+  }
 
-Since the video filename is already correct in this new code, it'll just work.
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+  }
 
-One thing — I used `https://instagram.com/Sai_24` as your link. Confirm that's your actual handle before committing, and let me know when you're ready to add the WhatsApp button later.
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .hero video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.55) saturate(1.05);
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(13,14,15,0.15) 0%, rgba(13,14,15,0.75) 85%);
+  }
+
+  .slate {
+    position: relative;
+    z-index: 2;
+    margin: 0 1.25rem 1.5rem;
+    width: min(420px, calc(100% - 2.5rem));
+    background: rgba(23,25,27,0.88);
+    border: 1px solid rgba(242,239,233,0.14);
+    backdrop-filter: blur(6px);
+    padding: 1.4rem 1.5rem 1.6rem;
+  }
+
+  .slate-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.9rem;
+  }
+
+  .tally {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    color: var(--warm-gray);
+    text-transform: uppercase;
+  }
+
+  .tally-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--amber);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255,176,32,0.5); }
+    50% { opacity: 0.55; box-shadow: 0 0 0 6px rgba(255,176,32,0); }
+  }
+
+  .slate h1 {
+    font-size: 3.1rem;
+    line-height: 0.9;
+    margin: 0 0 0.6rem;
+    color: var(--chalk);
+  }
+
+  .slate-field {
+    display: grid;
+    grid-template-columns: 74px 1fr;
+    gap: 0.15rem 0.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.74rem;
+    padding: 0.28rem 0;
+    border-top: 1px solid rgba(242,239,233,0.1);
+  }
+
+  .slate-field:first-of-type { border-top: 1px solid rgba(242,239,233,0.18); margin-top: 0.3rem; }
+
+  .slate-field span:first-child {
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 1.4rem;
+    right: 1.5rem;
+    z-index: 2;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--warm-gray);
+    writing-mode: vertical-rl;
+    letter-spacing: 0.15em;
+  }
+
+  .reels {
+    background: var(--charcoal);
+    padding: 4rem 1.5rem 3rem;
+  }
+
+  .reels-heading {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    color: var(--warm-gray);
+    text-transform: uppercase;
+    margin: 0 0 1.6rem;
+  }
+
+  .reel {
+    border-top: 1px solid rgba(242,239,233,0.14);
+    padding: 1.6rem 0;
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 0.3rem 1rem;
+  }
+
+  .reel:last-child { border-bottom: 1px solid rgba(242,239,233,0.14); }
+
+  .reel-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--amber);
+    padding-top: 0.2rem;
+  }
+
+  .reel h2 {
+    font-size: 1.9rem;
+    margin: 0 0 0.35rem;
+    color: var(--chalk);
+  }
+
+  .reel p {
+    grid-column: 2;
+    margin: 0;
+    color: var(--warm-gray);
+    font-size: 0.94rem;
+    line-height: 1.5;
+    max-width: 46ch;
+  }
+
+  .outro {
+    background: var(--charcoal-deep);
+    padding: 4rem 1.5rem 3.5rem;
+    text-align: center;
+  }
+
+  .outro-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--warm-gray);
+    text-transform: uppercase;
+    margin: 0 0 0.8rem;
+  }
+
+  .outro h2 {
+    font-size: 2.4rem;
+    margin: 0 0 2rem;
+    color: var(--chalk);
+  }
+
+  .credit-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.85rem 1.6rem;
+    border: 1px solid rgba(242,239,233,0.25);
+    color: var(--chalk);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .credit-line:hover, .credit-line:focus-visible {
+    border-color: var(--amber);
+    background: rgba(255,176,32,0.06);
+  }
+
+  .credit-line:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+  .credit-line .ig-mark {
+    color: var(--amber);
+  }
+
+  footer {
+    padding: 1.6rem;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--warm-gray);
+    background: var(--charcoal-deep);
+    border-top: 1px solid rgba(242,239,233,0.08);
+  }
+
+  @media (min-width: 640px) {
+    .slate h1 { font-size: 4rem; }
+    .reel h2 { font-size: 2.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <video autoplay muted loop playsinline>
+    <source src="VID_20260705_060923_267.mp4" type="video/mp4">
+  </video>
+
+  <div class="scroll-cue">SCROLL ↓</div>
+
+  <div class="slate">
+    <div class="slate-top">
+      <span class="tally"><span class="tally-dot"></span> ON AIR</span>
+      <span class="tally">REEL 01</span>
+    </div>
+    <h1>LUCKY</h1>
+    <div class="slate-field">
+      <span>Role</span><span>Creative &amp; AI-assisted work</span>
+    </div>
+    <div class="slate-field">
+      <span>Skills</span><span>Design · Edit · Prompt</span>
+    </div>
+    <div class="slate-field">
+      <span>Based</span><span>Andhra Pradesh, India</span>
+    </div>
+  </div>
+</section>
+
+<section class="reels">
+  <p class="reels-heading">What I work on</p>
+
+  <div class="reel">
+    <span class="reel-num">01</span>
+    <div>
+      <h2>Graphic Design</h2>
+      <p>Posters, thumbnails, and social media visuals built to catch attention and hold it.</p>
+    </div>
+  </div>
+
+  <div class="reel">
+    <span class="reel-num">02</span>
+    <div>
+      <h2>Video Editing</h2>
+      <p>Reels and short-form edits with clean cuts, pacing, and sound that keeps people watching.</p>
+    </div>
+  </div>
+
+  <div class="reel">
+    <span class="reel-num">03</span>
+    <div>
+      <h2>Prompt Engineering</h2>
+      <p>Getting AI tools to actually produce what's needed — writing, images, and workflows.</p>
+    </div>
+  </div>
+</section>
+
+<section class="outro">
+  <p class="outro-label">Reel ends — let's talk</p>
+  <h2>Got work for me?</h2>
+  <a class="credit-line" href="https://instagram.com/Sai_24" target="_blank" rel="noopener">
+    <span class="ig-mark">@</span> Sai_24 on Instagram
+  </a>
+</section>
+
+<footer>LUCKY — CREATIVE REEL — {DATE AUTO}</footer>
+
+<script>
+  document.querySelector('footer').textContent =
+    'LUCKY — CREATIVE REEL — ' + new Date().getFullYear();
+</script>
+
+</body>
+</html>
